@@ -1,0 +1,37 @@
+---
+title: Serper
+description: Lightweight wrapper around Serper for Google search.
+---
+
+- package: `@deepagent/serper`
+- exports: `class SerperClient`, `namespace serper`
+- env vars: `SERPER_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/serper/src/serper-client.ts)
+- [serper api docs](https://serper.dev)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/serper
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/serper
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/serper
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { SerperClient } from '@deepagent/serper'
+
+const serper = new SerperClient()
+const res = await serper.search('latest news')
+```

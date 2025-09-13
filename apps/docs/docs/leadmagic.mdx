@@ -1,0 +1,39 @@
+---
+title: LeadMagic
+description: LeadMagic provides an API for B2B person, company, and email enrichment.
+---
+
+- package: `@deepagent/leadmagic`
+- exports: `class LeadMagic`, `namespace leadmagic`
+- env vars: `LEADMAGIC_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/leadmagic/src/leadmagic-client.ts)
+- [leadmagic api docs](https://docs.leadmagic.io)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/leadmagic
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/leadmagic
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/leadmagic
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { LeadMagicClient } from '@deepagent/leadmagic'
+
+const leadmagic = new LeadMagicClient()
+const res = await leadmagic.profileSearch({
+  linkedinUsername: 'fisch2'
+})
+```

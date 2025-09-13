@@ -1,0 +1,37 @@
+---
+title: Polygon
+description: Stock market and company financial data.
+---
+
+- package: `@deepagent/polygon`
+- exports: `class PolygonClient`, `namespace polygon`
+- env vars: `POLYGON_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/polygon/src/polygon-client.ts)
+- [polygon api docs](https://polygon.io/docs)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/polygon
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/polygon
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/polygon
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { PolygonClient } from '@deepagent/polygon'
+
+const polygon = new PolygonClient()
+const res = await polygon.tickerDetails({ ticker: 'AAPL' })
+```

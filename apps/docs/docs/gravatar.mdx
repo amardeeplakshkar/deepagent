@@ -1,0 +1,37 @@
+---
+title: Gravatar
+description: Gravatar Profile API.
+---
+
+- package: `@deepagent/gravatar`
+- exports: `class GravatarClient`, `namespace gravatar`
+- env vars: `GRAVATAR_API_KEY` _(optional)_
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/gravatar/src/gravatar-client.ts)
+- [Gravatar API docs](https://docs.gravatar.com/api/profiles/rest-api/)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/gravatar
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/gravatar
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/gravatar
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { GravatarClient } from '@deepagent/gravatar'
+
+const gravatar = new GravatarClient()
+const profile = await gravatar.getProfileByIdentifier('my-email@example.com')
+```

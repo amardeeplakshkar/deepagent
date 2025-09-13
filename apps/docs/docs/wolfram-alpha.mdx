@@ -1,0 +1,37 @@
+---
+title: Wolfram Alpha
+description: Wolfram Alpha LLM API client for answering computational, mathematical, and scientific questions.
+---
+
+- package: `@deepagent/wolfram-alpha`
+- exports: `class WolframAlphaClient`, `namespace wolframalpha`
+- env vars: `WOLFRAM_APP_ID`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/wolfram-alpha/src/wolfram-alpha-client.ts)
+- [wolfram alpha api docs](https://products.wolframalpha.com/llm-api/documentation)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/wolfram-alpha
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/wolfram-alpha
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/wolfram-alpha
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { WolframAlphaClient } from '@deepagent/wolfram-alpha'
+
+const wolframAlpha = new WolframAlphaClient()
+const res = await wolframAlpha.search('latest news')
+```

@@ -1,0 +1,37 @@
+---
+title: Social Data Tools
+description: Unofficial Twitter / X client (readonly) which is much cheaper than the official Twitter API.
+---
+
+- package: `@deepagent/social-data`
+- exports: `class SocialDataClient`, `namespace socialdata`
+- env vars: `SOCIAL_DATA_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/social-data/src/social-data-client.ts)
+- [social data tools api docs](https://socialdata.tools)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/social-data
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/social-data
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/social-data
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { SocialDataClient } from '@deepagent/social-data'
+
+const sd = new SocialDataClient()
+const res = await sd.getUserByUsername('transitive_bs')
+```

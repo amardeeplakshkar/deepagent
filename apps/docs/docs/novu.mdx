@@ -1,0 +1,39 @@
+---
+title: Novu
+description: Novu API client.
+---
+
+The [Novu API](https://novu.co) provides a router for sending notifications across different channels like Email, SMS, Chat, In-App, and Push.
+
+- package: `@deepagent/novu`
+- exports: `class NovuClient`, `namespace novu`
+- env vars: `NOVU_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/novu/src/novu-client.ts)
+- [novu api docs](https://novu.co)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/novu
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/novu
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/novu
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { NovuClient } from '@deepagent/novu'
+
+const novu = new NovuClient()
+const res = await novu.search('latest news')
+```

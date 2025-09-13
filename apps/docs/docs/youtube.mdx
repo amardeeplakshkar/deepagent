@@ -1,0 +1,40 @@
+---
+title: YouTube
+description: YouTube data API v3 client for searching YT videos and channels.
+---
+
+- package: `@deepagent/youtube`
+- exports: `class YouTubeClient`, `namespace youtube`
+- env vars: `YOUTUBE_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/youtube/src/youtube-client.ts)
+- [youtube api docs](https://developers.google.com/youtube/v3)
+  - [search docs](https://developers.google.com/youtube/v3/docs/search/list)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/youtube
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/youtube
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/youtube
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { YouTubeClient } from '@deepagent/youtube'
+
+const youtube = new YouTubeClient()
+const res = await youtube.searchVideos({
+  query: 'cute kittens'
+})
+```

@@ -1,0 +1,39 @@
+---
+title: Midjourney
+description: Unofficial Midjourney API client for generative images.
+---
+
+- package: `@deepagent/midjourney`
+- exports: `class MidjourneyClient`, `namespace midjourney`
+- env vars: `MIDJOURNEY_IMAGINE_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/midjourney/src/midjourney-client.ts)
+- [imagine api docs](https://www.imagineapi.dev)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/midjourney
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/midjourney
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/midjourney
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { MidjourneyClient } from '@deepagent/midjourney'
+
+const midjourney = new MidjourneyClient()
+const res = await midjourney.imagine({
+  prompt: 'beautiful sunset over the ocean, oil painting, monet'
+})
+```

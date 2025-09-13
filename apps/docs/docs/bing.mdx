@@ -1,0 +1,37 @@
+---
+title: Bing
+description: Bing web search API client.
+---
+
+- package: `@deepagent/bing`
+- exports: `class BingClient`, `namespace bing`
+- env vars: `BING_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/bing/src/bing-client.ts)
+- [bing web search docs](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/bing
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/bing
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/bing
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { BingClient } from '@deepagent/bing'
+
+const bing = new BingClient()
+const res = await bing.search('latest news')
+```

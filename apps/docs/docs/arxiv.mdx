@@ -1,0 +1,40 @@
+---
+title: ArXiv
+description: Search for research articles.
+---
+
+- package: `@deepagent/arxiv`
+- exports: `class ArXivClient`, `namespace arxiv`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/arxiv/src/arxiv-client.ts)
+- [arxiv api docs](https://info.arxiv.org/help/api/index.html)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/arxiv
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/arxiv
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/arxiv
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { ArXivClient } from '@deepagent/arxiv'
+
+// No API is required to use the ArXiv API
+const arxiv = new ArXivClient()
+const results = await arxiv.search({
+  query: 'machine learning',
+  maxResults: 10
+})
+```

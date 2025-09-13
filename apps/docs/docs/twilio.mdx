@@ -1,0 +1,40 @@
+---
+title: Twilio
+description: Twilio conversation API to send and receive SMS messages.
+---
+
+- package: `@deepagent/twilio`
+- exports: `class TwilioClient`, `namespace twilio`
+- env vars: `TWILIO_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/twilio/src/twilio-client.ts)
+- [twilio api docs](https://www.twilio.com/docs/conversations/api)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/twilio
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/twilio
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/twilio
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { TwilioClient } from '@deepagent/twilio'
+
+const twilio = new TwilioClient()
+const res = await twilio.sendMessage({
+  conversationId: 'TODO',
+  text: 'Hello, world'
+})
+```

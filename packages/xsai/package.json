@@ -1,0 +1,50 @@
+{
+  "name": "@deepagent/xsai",
+  "version": "7.6.9",
+  "description": "Agentic adapter for the xsAI SDK.",
+  "author": "Amardeep Lakshkar <https://amardeep.space> ",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amardeeplakshkar/deepagent.git",
+    "directory": "stdlib/xsai"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "clean": "del dist",
+    "test": "run-s test:*",
+    "test:typecheck": "tsc --noEmit",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "@agentic/core": "^8.4.4",
+    "@agentic/platform-tool-client": "latest"
+  },
+  "peerDependencies": {
+    "@xsai/tool": "^0.4.0-beta.3"
+  },
+  "devDependencies": {
+    "@xsai/tool": "latest"
+  },
+  "publishConfig": {
+    "access": "public",
+    "files": [
+      "dist"
+    ],
+    "types": "./dist/index.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js",
+        "default": "./dist/index.js"
+      }
+    }
+  }
+}

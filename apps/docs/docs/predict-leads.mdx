@@ -1,0 +1,39 @@
+---
+title: Predict Leads
+description: Company data and events API.
+---
+
+In-depth company data, including signals like fundraising announcemnts, hiring intent, new customers signed, technologies used, product launches, location expansions, awards received, etc.
+
+- package: `@deepagent/predict-leads`
+- exports: `class PredictLeadsClient`, `namespace predictleads`
+- env vars: `PREDICT_LEADS_API_KEY`, `PREDICT_LEADS_API_TOKEN`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/predict-leads/src/predict-leads-client.ts)
+- [precit leads api docs](https://docs.predictleads.com/v3)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/predict-leads
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/predict-leads
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/predict-leads
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { PredictLeadsClient } from '@deepagent/predict-leads'
+
+const predictLeads = new PredictLeadsClient()
+const res = await predictLeads.getCompanyEvents({ domain: 'apple.com' })
+```

@@ -1,0 +1,40 @@
+---
+title: Slack
+description: Minimal Slack API client for sending and receiving Slack messages.
+---
+
+- package: `@deepagent/slack`
+- exports: `class SlackClient`, `namespace slack`
+- env vars: `SLACK_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/slack/src/slack-client.ts)
+- [slack api docs](https://api.slack.com/docs)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/slack
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/slack
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/slack
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { SlackClient } from '@deepagent/slack'
+
+const slack = new SlackClient()
+const res = await slack.sendMessage({
+  text: 'hello',
+  channel: 'general'
+})
+```

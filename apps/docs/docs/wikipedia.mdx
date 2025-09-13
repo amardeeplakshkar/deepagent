@@ -1,0 +1,38 @@
+---
+title: Wikipedia
+description: Wikipedia apage search and summary API.
+---
+
+- package: `@deepagent/wikipedia`
+- exports: `class WikipediaClient`, `namespace wikipedia`
+- env vars: `WIKIPEDIA_API_USER_AGENT` _(optional)_
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/wikipedia/src/wikipedia-client.ts)
+- [wikipedia api docs](https://www.mediawiki.org/wiki/API)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/wikipedia
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/wikipedia
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/wikipedia
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { WikipediaClient } from '@deepagent/wikipedia'
+
+const wikipedia = new WikipediaClient()
+const res0 = await wikipedia.search({ query: 'steve jobs' })
+const res1 = await wikipedia.getPageSummary({ title: 'Elon_Musk' })
+```

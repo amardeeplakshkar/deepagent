@@ -1,0 +1,37 @@
+---
+title: Exa
+description: Web search tailored for LLMs.
+---
+
+- package: `@deepagent/exa`
+- exports: `class ExaClient`, `namespace exa`
+- env vars: `EXA_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/exa/src/exa-client.ts)
+- [exa api docs](https://docs.exa.ai)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/exa
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/exa
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/exa
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { ExaClient } from '@deepagent/exa'
+
+const exa = new ExaClient()
+const res = await exa.search('latest news')
+```

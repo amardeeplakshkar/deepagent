@@ -1,0 +1,52 @@
+---
+title: Airtable
+description: Airtable is a no-code spreadsheets, CRM, and database.
+---
+
+- package: `@deepagent/airtable`
+- exports: `class AirtableClient`, `namespace airtable`
+- env vars: `AIRTABLE_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/airtable/src/airtable-client.ts)
+- [airtable api docs](https://airtable.com/developers/web/api/introduction)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/airtable
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/airtable
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/airtable
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { AirtableClient } from '@deepagent/airtable'
+
+const airtable = new AirtableClient()
+const { bases } = await airtable.listBases()
+console.log('bases', tables)
+
+const baseId = bases[0]!.id
+const tables = await airtable.listTables({ baseId })
+console.log('tables', tables)
+
+const tableId = tables[0]!.id
+const searchResults = await airtable.searchRecords({
+  baseId,
+  tableId,
+  searchTerm: 'Travis'
+})
+console.log('search results', searchResults)
+```
+
+(this is just an example of how you'd use the client)

@@ -1,0 +1,37 @@
+---
+title: Wikidata
+description: Basic Wikidata client.
+---
+
+- package: `@deepagent/wikidata`
+- exports: `class WikidataClient`, `namespace wikidata`
+- env vars: `WIKIDATA_API_USER_AGENT` _(optional)_
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/wikidata/src/wikidata-client.ts)
+- [wikibase api docs](https://github.com/maxlath/wikibase-sdk)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/wikidata
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/wikidata
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/wikidata
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { WikidataClient } from '@deepagent/wikidata'
+
+const wikidata = new WikidataClient()
+const res = await wikidata.getEntityById('Q317521') // elon musk
+```

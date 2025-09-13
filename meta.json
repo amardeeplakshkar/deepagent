@@ -1,0 +1,5 @@
+{
+  "name": "Changesets",
+  "description": "Configured to publish packages via Changesets",
+  "maintainedByCoreTeam": false
+}

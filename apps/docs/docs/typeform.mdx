@@ -1,0 +1,44 @@
+---
+title: Typeform
+description: Readonly Typeform API client for fetching form insights and responses.
+---
+
+- package: `@deepagent/typeform`
+- exports: `class TypeformClient`, `namespace typeform`
+- env vars: `TYPEFORM_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/typeform/src/typeform-client.ts)
+- [typeform api docs](https://www.typeform.com/developers/get-started/)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/typeform
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/typeform
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/typeform
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { TypeformClient } from '@deepagent/typeform'
+
+const typeform = new TypeformClient()
+
+const responses = await typeform.getResponsesForForm({
+  formId: 'TODO'
+})
+
+const insights = await typeform.getInsightsForForm({
+  formId: 'TODO'
+})
+```

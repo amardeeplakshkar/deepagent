@@ -1,0 +1,42 @@
+---
+title: Dexa
+description: Answers questions from the world's best podcasters.
+---
+
+<Warning>
+  The [Dexa](https://dexa.ai) API is currently only available as a closed beta.
+</Warning>
+
+- package: `@deepagent/dexa`
+- exports:
+  - `class DexaClient`, `namespace dexa`
+  - `class ScraperClient`, `namespace scraper`
+- env vars: `DEXA_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/dexa/src/dexa-client.ts)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/dexa
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/dexa
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/dexa
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { DexaClient } from '@deepagent/dexa'
+
+const dexa = new DexaClient()
+const res = await dexa.search('latest news')
+```

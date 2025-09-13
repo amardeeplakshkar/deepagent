@@ -1,0 +1,48 @@
+{
+  "name": "@deepagent/jigsawstack",
+  "version": "7.6.9",
+  "description": "Agentic adapter for the Jigsawstack AI SDK.",
+  "author": "Narcisse Egonu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amardeeplakshkar/deepagent.git",
+    "directory": "stdlib/jigsawstack"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "source": "./src/index.ts",
+  "types": "./dist/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "del dist",
+    "test": "run-s test:*",
+    "test:typecheck": "tsc --noEmit",
+    "test-unit": "vitest run"
+  },
+  "peerDependencies": {
+    "@agentic/core": "^8.4.4"
+  },
+  "devDependencies": {
+    "@agentic/core": "^8.4.4",
+    "@ai-sdk/openai": "latest",
+    "ai": "latest"
+  },
+  "dependencies": {
+    "ky": "^1.10.0",
+    "p-throttle": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
