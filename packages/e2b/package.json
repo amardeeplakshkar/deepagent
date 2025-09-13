@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/e2b",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "DeepAgent Agentic SDK for E2B's hosted code interpreter.",
   "author": "Amardeep Lakshkar <https://amardeep.space> ",
   "license": "MIT",
@@ -30,7 +30,9 @@
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "@e2b/code-interpreter": "latest"
+    "@e2b/code-interpreter": "latest",
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
   },
   "publishConfig": {
     "access": "public",

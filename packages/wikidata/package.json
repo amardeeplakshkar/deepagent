@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/wikidata",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "DeepAgent Agentic SDK for Wikidata.",
   "author": "Amardeep Lakshkar <https://amardeep.space> ",
   "license": "MIT",
@@ -40,5 +40,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+      "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
   }
 }

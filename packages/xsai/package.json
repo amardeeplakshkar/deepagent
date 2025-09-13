@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/xsai",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "Agentic adapter for the xsAI SDK.",
   "author": "Amardeep Lakshkar <https://amardeep.space> ",
   "license": "MIT",
@@ -31,7 +31,9 @@
     "@xsai/tool": "^0.4.0-beta.3"
   },
   "devDependencies": {
-    "@xsai/tool": "latest"
+    "@xsai/tool": "latest",
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
   },
   "publishConfig": {
     "access": "public",

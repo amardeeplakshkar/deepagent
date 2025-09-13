@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/stdlib",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "Standard library of AI functions which work with any LLM and TypeScript AI SDK.",
   "author": "Amardeep Lakshkar <https://amardeep.space> ",
   "license": "MIT",
@@ -104,5 +104,9 @@
     "ai function calling",
     "ai tool calling",
     "tool use"
-  ]
+  ],
+      "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
+  }
 }

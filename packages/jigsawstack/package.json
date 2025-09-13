@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/jigsawstack",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "Agentic adapter for the Jigsawstack AI SDK.",
   "author": "Narcisse Egonu",
   "license": "MIT",
@@ -36,7 +36,9 @@
   "devDependencies": {
     "@agentic/core": "^8.4.4",
     "@ai-sdk/openai": "latest",
-    "ai": "latest"
+    "ai": "latest",
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
   },
   "dependencies": {
     "ky": "^1.10.0",

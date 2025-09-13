@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/zoominfo",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "DeepAgent Agentic SDK for ZoomInfo.",
   "author": "Amardeep Lakshkar <https://amardeep.space> ",
   "license": "MIT",
@@ -40,7 +40,9 @@
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "@types/jsrsasign": "latest"
+    "@types/jsrsasign": "latest",
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
   },
   "publishConfig": {
     "access": "public"

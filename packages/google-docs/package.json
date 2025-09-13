@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/google-docs",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "DeepAgent Agentic SDK for Google Docs.",
   "author": "Amardeep Lakshkar <https://amardeep.space> ",
   "license": "MIT",
@@ -34,7 +34,9 @@
     "type-fest": "latest"
   },
   "devDependencies": {
-    "googleapis": "latest"
+    "googleapis": "latest",
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
   },
   "peerDependencies": {
     "googleapis": "^159.0.0",

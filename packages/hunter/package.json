@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/hunter",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "DeepAgent Agentic SDK for hunter.io email lookup.",
   "author": "Amardeep Lakshkar <https://amardeep.space> ",
   "license": "MIT",
@@ -35,6 +35,10 @@
   },
   "peerDependencies": {
     "zod": "^3.25.67"
+  },
+    "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
   },
   "publishConfig": {
     "access": "public"

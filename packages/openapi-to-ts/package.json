@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/openapi-to-ts",
-  "version": "7.6.9",
+  "version": "8.0.0",
   "description": "Generate an Agentic TypeScript client from an OpenAPI spec.",
   "author": "Amardeep Lakshkar <https://amardeep.space> ",
   "license": "MIT",
@@ -38,7 +38,9 @@
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "ky": "^1.10.0"
+    "ky": "^1.10.0",
+    "tsup": "^8.5.0",
+    "typescript": "5.5.4"
   },
   "publishConfig": {
     "access": "public",

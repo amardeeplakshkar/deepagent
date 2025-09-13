@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -116,8 +118,5 @@
   }
   body {
     @apply bg-background text-foreground;
-  }
-  header {
-    @apply md:hidden! block!
   }
 }
