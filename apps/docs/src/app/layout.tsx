@@ -1,7 +1,13 @@
 import "./globals.css"
 import { RootProvider } from 'fumadocs-ui/provider';
+import type { ReactNode } from 'react';
 
-export default function Layout({ children }: LayoutProps<'/'>) {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+
+export default function Layout({ children }: LayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -11,7 +17,9 @@ export default function Layout({ children }: LayoutProps<'/'>) {
           minHeight: '100vh',
         }}
       >
-        <RootProvider>{children}</RootProvider>
+        <RootProvider>
+        {children}
+        </RootProvider>
       </body>
     </html>
   );
