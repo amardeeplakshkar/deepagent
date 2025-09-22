@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/wolfram-alpha",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for Wolfram Alpha.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

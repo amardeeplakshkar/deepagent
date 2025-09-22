@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/predict-leads",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for Predict Leads.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

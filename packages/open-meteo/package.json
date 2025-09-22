@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/open-meteo",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for the Open-Meteo weather API.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

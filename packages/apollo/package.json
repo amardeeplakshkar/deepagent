@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/apollo",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for Apollo.io.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

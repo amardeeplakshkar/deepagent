@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/exa",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for the Exa search engine.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

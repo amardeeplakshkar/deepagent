@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/social-data",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for accessing Twitter via Social Data.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

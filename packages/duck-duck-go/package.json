@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/duck-duck-go",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for DuckDuckGo.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

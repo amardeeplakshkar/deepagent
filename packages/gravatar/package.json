@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/gravatar",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for Gravatar.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/zoominfo",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for ZoomInfo.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

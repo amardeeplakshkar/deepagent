@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/e2b",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for E2B's hosted code interpreter.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

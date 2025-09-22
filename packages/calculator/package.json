@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/calculator",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "Agentic calculator tool wrapping mathjs.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

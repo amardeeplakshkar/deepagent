@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/weather",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "DeepAgent Agentic SDK for weatherapi.com.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",
