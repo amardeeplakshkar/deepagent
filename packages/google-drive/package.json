@@ -1,0 +1,46 @@
+{
+    "name": "@deepagent/google-drive",
+  "version": "8.2.0",
+  "description": "DeepAgent Agentic SDK for Google Drive.",
+  "author": "Amardeep Lakshkar <https://amardeep.space>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amardeeplakshkar/deepagent.git",
+    "directory": "stdlib/google-drive"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "source": "./src/index.ts",
+  "types": "./dist/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "del dist",
+    "test": "run-s test:*",
+    "test:typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agentic/core": "catalog:",
+    "type-fest": "catalog:"
+  },
+  "devDependencies": {
+    "googleapis": "catalog:"
+  },
+  "peerDependencies": {
+    "googleapis": "catalog:",
+    "zod": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

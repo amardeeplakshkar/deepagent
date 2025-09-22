@@ -1,0 +1,39 @@
+---
+title: Apollo
+description: Apollo provides an API for B2B person and company enrichment.
+---
+
+- package: `@deepagent/apollo`
+- exports: `class Apollo`, `namespace apollo`
+- env vars: `APOLLO_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/apollo/src/apollo-client.ts)
+- [apollo api docs](https://docs.apollo.io)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/apollo
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/apollo
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/apollo
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { ApolloClient } from '@deepagent/apollo'
+
+const apollo = new ApolloClient()
+const res = await apollo.enrichPerson({
+  linkedin_url: 'https://linkedin.com/in/fisch2'
+})
+```

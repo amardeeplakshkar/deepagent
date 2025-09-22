@@ -1,0 +1,260 @@
+---
+title: Vercel AI SDK
+description: Use @deepagent/weather with Vercel AI SDK for weather-aware AI applications
+---
+
+# Weather Tool - Vercel AI SDK Integration
+
+Learn how to integrate the [`@deepagent/weather`](https://deepagent.amardeep.space/docs/weather) tool with the Vercel AI SDK for building weather-aware AI applications.
+
+## Prerequisites
+
+- Vercel AI SDK installed
+- [`@deepagent/weather`](https://deepagent.amardeep.space/docs/weather) package
+- Weather API key from [weatherapi.com](https://www.weatherapi.com)
+
+## Installation
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/weather ai
+\`\`\`
+\`\`\`bash yarn
+yarn add @deepagent/weather ai
+\`\`\`
+\`\`\`bash pnpm
+pnpm add @deepagent/weather ai
+\`\`\`
+`}
+</PackageTabs>
+
+## Environment Setup
+
+```bash
+WEATHER_API_KEY=your_weather_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+## Basic Integration
+
+### Tool Definition
+
+```ts
+import { WeatherClient } from '@deepagent/weather'
+import { tool } from 'ai'
+import { z } from 'zod'
+
+const weather = new WeatherClient()
+
+export const weatherTool = tool({
+  description: 'Get current weather information for any location',
+  parameters: z.object({
+    location: z.string().describe('The city or location to get weather for'),
+  }),
+  execute: async ({ location }) => {
+    try {
+      const weatherData = await weather.getCurrentWeather(location)
+      return {
+        location: weatherData.location.name,
+        country: weatherData.location.country,
+        temperature: weatherData.current.temp_c,
+        condition: weatherData.current.condition.text,
+        humidity: weatherData.current.humidity,
+        windSpeed: weatherData.current.wind_kph,
+        feelsLike: weatherData.current.feelslike_c,
+      }
+    } catch (error) {
+      return { error: 'Failed to fetch weather data' }
+    }
+  },
+})
+```
+
+### Chat Completion with Tools
+
+```ts
+import { generateText } from 'ai'
+import { openai } from '@ai-sdk/openai'
+
+const result = await generateText({
+  model: openai('gpt-4-turbo'),
+  messages: [
+    {
+      role: 'user',
+      content: 'What\'s the weather like in Tokyo today?'
+    }
+  ],
+  tools: {
+    getWeather: weatherTool,
+  },
+})
+
+console.log(result.text)
+```
+
+### Streaming with Tools
+
+```ts
+import { streamText } from 'ai'
+import { openai } from '@ai-sdk/openai'
+
+const result = await streamText({
+  model: openai('gpt-4-turbo'),
+  messages: [
+    {
+      role: 'user',
+      content: 'Compare the weather in New York and London'
+    }
+  ],
+  tools: {
+    getWeather: weatherTool,
+  },
+})
+
+for await (const delta of result.textStream) {
+  process.stdout.write(delta)
+}
+```
+
+### Advanced Weather Tool with Forecast
+
+```ts
+export const weatherForecastTool = tool({
+  description: 'Get weather forecast for a location',
+  parameters: z.object({
+    location: z.string().describe('The city or location'),
+    days: z.number().min(1).max(10).describe('Number of days to forecast'),
+  }),
+  execute: async ({ location, days }) => {
+    try {
+      const forecastData = await weather.getForecast(location, days)
+      return {
+        location: forecastData.location.name,
+        current: forecastData.current,
+        forecast: forecastData.forecast.forecastday.map(day => ({
+          date: day.date,
+          maxTemp: day.day.maxtemp_c,
+          minTemp: day.day.mintemp_c,
+          condition: day.day.condition.text,
+          chanceOfRain: day.day.daily_chance_of_rain,
+        }))
+      }
+    } catch (error) {
+      return { error: 'Failed to fetch forecast data' }
+    }
+  },
+})
+```
+
+### Next.js API Route Example
+
+```ts
+// app/api/chat/route.ts
+import { streamText } from 'ai'
+import { openai } from '@ai-sdk/openai'
+import { weatherTool } from '@/lib/weather-tool'
+
+export async function POST(req: Request) {
+  const { messages } = await req.json()
+
+  const result = await streamText({
+    model: openai('gpt-4-turbo'),
+    messages,
+    tools: {
+      getWeather: weatherTool,
+    },
+  })
+
+  return result.toAIStreamResponse()
+}
+```
+
+### React Hook Usage
+
+```tsx
+'use client'
+
+import { useChat } from 'ai/react'
+
+export default function WeatherChat() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    api: '/api/chat',
+  })
+
+  return (
+    <div>
+      <div>
+        {messages.map((message) => (
+          <div key={message.id}>
+            <strong>{message.role}:</strong>
+            <p>{message.content}</p>
+            {message.toolInvocations?.map((toolInvocation) => (
+              <div key={toolInvocation.toolCallId}>
+                <strong>Tool:</strong> {toolInvocation.toolName}
+                <pre>{JSON.stringify(toolInvocation.result, null, 2)}</pre>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      
+      <form onSubmit={handleSubmit}>
+        <input
+          value={input}
+          onChange={handleInputChange}
+          placeholder="Ask about the weather..."
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  )
+}
+```
+
+### Error Handling
+
+```ts
+export const robustWeatherTool = tool({
+  description: 'Get current weather with error handling',
+  parameters: z.object({
+    location: z.string().describe('The city or location'),
+  }),
+  execute: async ({ location }) => {
+    try {
+      const weatherData = await weather.getCurrentWeather(location)
+      return {
+        success: true,
+        data: {
+          location: weatherData.location.name,
+          temperature: weatherData.current.temp_c,
+          condition: weatherData.current.condition.text,
+          humidity: weatherData.current.humidity,
+          timestamp: new Date().toISOString(),
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        fallback: 'Weather data temporarily unavailable'
+      }
+    }
+  },
+})
+```
+
+## Best Practices
+
+1. **Always handle errors gracefully** - Weather APIs can be unreliable
+2. **Cache responses** - Avoid unnecessary API calls for the same location
+3. **Validate location input** - Ensure the location string is meaningful
+4. **Rate limiting** - Be mindful of API rate limits
+5. **Fallback data** - Consider providing cached or default weather information
+
+## Example Applications
+
+- Weather-aware travel planning chatbot
+- Smart home automation assistant
+- Agricultural advisory system
+- Event planning assistant with weather considerations

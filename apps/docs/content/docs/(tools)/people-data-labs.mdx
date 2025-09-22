@@ -1,0 +1,46 @@
+---
+title: People Data Labs
+description: People & company data enrichment.
+---
+
+<Warning>
+  People Data Labs tends to be more expensive than other similar data providers.
+  The author recommends you stay away from them.
+</Warning>
+
+- package: `@deepagent/people-data-labs`
+- exports: `class PeopleDataLabsClient`, `namespace peopledatalabs`
+- env vars: `PEOPLE_DATA_LABS_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/people-data-labs/src/people-data-labs-client.ts)
+- [people data labs api docs](https://www.peopledatalabs.com)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/people-data-labs
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/people-data-labs
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/people-data-labs
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { PeopleDataLabsClient } from '@deepagent/people-data-labs'
+
+const pdl = new PeopleDataLabsClient()
+const res = await pdl.companyLookup({
+  query: {
+    website: 'apple.com'
+  }
+})
+```

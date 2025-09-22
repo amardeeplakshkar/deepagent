@@ -1,0 +1,46 @@
+---
+title: Jina
+description: URL scraper and web search
+---
+
+LLM-friendly URL reader and search client by [Jina AI](https://jina.ai/reader) with a basic free tier.
+
+- package: `@deepagent/jina`
+- exports: `class JinaClient`, `namespace jina`
+- env vars: `JINA_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/jina/src/jina-client.ts)
+- [jina api docs](https://jina.ai/reader)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/jina
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/jina
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/jina
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { JinaClient } from '@deepagent/jina'
+
+const jina = new JinaClient()
+const res0 = await jina.readUrl('https://example.com')
+const res1 = await jina.search({ query: 'latest news', json: true })
+```
+
+## Notes
+
+- Does not support "stream mode".
+- Results default to markdown text format.
+- To return JSON (especially useful for `search`), set `json: true` in the options.

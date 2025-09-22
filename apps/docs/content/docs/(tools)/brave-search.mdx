@@ -1,0 +1,37 @@
+---
+title: Brave Search
+description: Brave web search and local places search.
+---
+
+- package: `@deepagent/brave-search`
+- exports: `class BraveSearchClient`, `namespace braveSearch`
+- env vars: `BRAVE_SEARCH_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/brave-search/src/brave-search-client.ts)
+- [brave search docs](https://brave.com/search/api)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/brave-search
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/brave-search
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/brave-search
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { BraveSearchClient } from '@deepagent/brave-search'
+
+const braveSearch = new BraveSearchClient()
+const res = await braveSearch.search('latest news about openai')
+```

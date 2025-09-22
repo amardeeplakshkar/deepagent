@@ -1,0 +1,48 @@
+{
+    "name": "@deepagent/zoominfo",
+  "version": "8.2.0",
+  "description": "DeepAgent Agentic SDK for ZoomInfo.",
+  "author": "Amardeep Lakshkar <https://amardeep.space>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amardeeplakshkar/deepagent.git",
+    "directory": "stdlib/zoominfo"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "source": "./src/index.ts",
+  "types": "./dist/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "del dist",
+    "test": "run-s test:*",
+    "test:typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agentic/core": "catalog:",
+    "jsrsasign": "catalog:",
+    "ky": "catalog:",
+    "p-throttle": "catalog:",
+    "zoominfo-api-auth-client": "catalog:"
+  },
+  "peerDependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/jsrsasign": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

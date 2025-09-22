@@ -1,0 +1,107 @@
+{
+    "name": "@deepagent/stdlib",
+  "version": "8.2.0",
+  "description": "Standard library of AI functions which work with any LLM and TypeScript AI SDK.",
+  "author": "Amardeep Lakshkar <https://amardeep.space>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amardeeplakshkar/deepagent.git",
+    "directory": "stdlib/stdlib"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "source": "./src/index.ts",
+  "types": "./dist/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "del dist",
+    "test": "run-s test:*",
+    "test:typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@deepagent/airtable": "workspace:*",
+    "@deepagent/apollo": "workspace:*",
+    "@deepagent/arxiv": "workspace:*",
+    "@deepagent/bing": "workspace:*",
+    "@deepagent/brave-search": "workspace:*",
+    "@deepagent/calculator": "workspace:*",
+    "@deepagent/clearbit": "workspace:*",
+    "@agentic/core": "catalog:",
+    "@deepagent/diffbot": "workspace:*",
+    "@deepagent/duck-duck-go": "workspace:*",
+    "@deepagent/exa": "workspace:*",
+    "@deepagent/firecrawl": "workspace:*",
+    "@deepagent/github": "workspace:*",
+    "@deepagent/google-custom-search": "workspace:*",
+    "@deepagent/google-docs": "workspace:*",
+    "@deepagent/google-drive": "workspace:*",
+    "@deepagent/gravatar": "workspace:*",
+    "@deepagent/hacker-news": "workspace:*",
+    "@deepagent/hunter": "workspace:*",
+    "@deepagent/jina": "workspace:*",
+    "@deepagent/leadmagic": "workspace:*",
+    "@deepagent/midjourney": "workspace:*",
+    "@deepagent/notion": "workspace:*",
+    "@deepagent/novu": "workspace:*",
+    "@deepagent/open-meteo": "workspace:*",
+    "@deepagent/people-data-labs": "workspace:*",
+    "@deepagent/perigon": "workspace:*",
+    "@deepagent/polygon": "workspace:*",
+    "@deepagent/predict-leads": "workspace:*",
+    "@deepagent/proxycurl": "workspace:*",
+    "@deepagent/reddit": "workspace:*",
+    "@deepagent/rocketreach": "workspace:*",
+    "@deepagent/searxng": "workspace:*",
+    "@deepagent/slack": "workspace:*",
+    "@deepagent/social-data": "workspace:*",
+    "@deepagent/tavily": "workspace:*",
+    "@deepagent/twilio": "workspace:*",
+    "@deepagent/twitter": "workspace:*",
+    "@deepagent/typeform": "workspace:*",
+    "@deepagent/weather": "workspace:*",
+    "@deepagent/wikidata": "workspace:*",
+    "@deepagent/wikipedia": "workspace:*",
+    "@deepagent/wolfram-alpha": "workspace:*",
+    "@deepagent/youtube": "workspace:*",
+    "@deepagent/zoominfo": "workspace:*",
+    "@deepagent/coindesk": "workspace:*"
+  },
+  "peerDependencies": {
+    "zod": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "deepagent",
+    "ai",
+    "sdk",
+    "openai",
+    "llm",
+    "tools",
+    "functions",
+    "stdlib",
+    "standard",
+    "library",
+    "functions",
+    "typescript",
+    "agent",
+    "agents",
+    "ai tools",
+    "ai functions",
+    "ai function calling",
+    "ai tool calling",
+    "tool use"
+  ]
+}

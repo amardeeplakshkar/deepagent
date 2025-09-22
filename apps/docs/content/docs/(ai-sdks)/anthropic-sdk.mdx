@@ -1,0 +1,337 @@
+---
+title: Anthropic AI SDK
+description: Use @deepagent/weather with Anthropic AI SDK for weather-aware AI applications
+---
+
+# Weather Tool - Anthropic Claude SDK Integration
+
+Learn how to integrate the [`@deepagent/weather`](https://deepagent.amardeep.space/docs/weather) tool with the Anthropic Claude SDK for building weather-aware AI applications.
+
+## Prerequisites
+
+- Anthropic SDK installed
+- [`@deepagent/weather`](https://deepagent.amardeep.space/docs/weather) package
+- Anthropic API key
+- Weather API key from [weatherapi.com](https://www.weatherapi.com)
+
+## Installation
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/weather @anthropic-ai/sdk
+\`\`\`
+\`\`\`bash yarn
+yarn add @deepagent/weather @anthropic-ai/sdk
+\`\`\`
+\`\`\`bash pnpm
+pnpm add @deepagent/weather @anthropic-ai/sdk
+\`\`\`
+`}
+</PackageTabs>
+
+## Environment Setup
+
+```bash
+WEATHER_API_KEY=your_weather_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+```
+
+## Basic Integration
+
+### Tool Definition
+
+```ts
+import { WeatherClient } from '@deepagent/weather'
+import Anthropic from '@anthropic-ai/sdk'
+
+const weather = new WeatherClient()
+const anthropic = new Anthropic()
+
+const weatherTool = {
+  name: 'get_weather',
+  description: 'Get current weather information for a specified location',
+  input_schema: {
+    type: 'object',
+    properties: {
+      location: {
+        type: 'string',
+        description: 'The city or location to get weather for (e.g., "New York", "London, UK")'
+      },
+      unit: {
+        type: 'string',
+        enum: ['celsius', 'fahrenheit'],
+        description: 'Temperature unit preference',
+        default: 'celsius'
+      }
+    },
+    required: ['location']
+  }
+}
+
+async function handleWeatherTool(location: string, unit: string = 'celsius') {
+  try {
+    const weatherData = await weather.getCurrentWeather(location)
+    
+    return {
+      location: `${weatherData.location.name}, ${weatherData.location.country}`,
+      temperature: unit === 'fahrenheit' ? weatherData.current.temp_f : weatherData.current.temp_c,
+      unit: unit === 'fahrenheit' ? '°F' : '°C',
+      condition: weatherData.current.condition.text,
+      humidity: weatherData.current.humidity,
+      windSpeed: weatherData.current.wind_kph,
+      feelsLike: unit === 'fahrenheit' ? weatherData.current.feelslike_f : weatherData.current.feelslike_c,
+      uvIndex: weatherData.current.uv,
+      visibility: weatherData.current.vis_km,
+      lastUpdated: weatherData.current.last_updated
+    }
+  } catch (error) {
+    return {
+      error: 'Unable to fetch weather data. Please check the location name and try again.'
+    }
+  }
+}
+```
+
+### Basic Chat with Tools
+
+```ts
+async function chatWithWeather(userMessage: string) {
+  const message = await anthropic.messages.create({
+    model: 'claude-3-sonnet-20240229',
+    max_tokens: 1000,
+    messages: [
+      {
+        role: 'user',
+        content: userMessage
+      }
+    ],
+    tools: [weatherTool]
+  })
+
+  // Check if Claude wants to use a tool
+  if (message.content.some(content => content.type === 'tool_use')) {
+    const toolUseBlocks = message.content.filter(content => content.type === 'tool_use')
+    
+    const toolResults = []
+    
+    for (const toolUse of toolUseBlocks) {
+      if (toolUse.name === 'get_weather') {
+        const { location, unit } = toolUse.input as { location: string, unit?: string }
+        const result = await handleWeatherTool(location, unit)
+        
+        toolResults.push({
+          type: 'tool_result' as const,
+          tool_use_id: toolUse.id,
+          content: JSON.stringify(result)
+        })
+      }
+    }
+
+    // Continue the conversation with tool results
+    const followUp = await anthropic.messages.create({
+      model: 'claude-3-sonnet-20240229',
+      max_tokens: 1000,
+      messages: [
+        {
+          role: 'user',
+          content: userMessage
+        },
+        {
+          role: 'assistant',
+          content: message.content
+        },
+        {
+          role: 'user',
+          content: toolResults
+        }
+      ],
+      tools: [weatherTool]
+    })
+
+    return followUp.content.find(content => content.type === 'text')?.text || 'No response generated'
+  }
+
+  return message.content.find(content => content.type === 'text')?.text || 'No response generated'
+}
+
+// Usage
+const response = await chatWithWeather("What's the weather like in Paris?")
+console.log(response)
+```
+
+### Advanced Multi-Tool Setup
+
+```ts
+const weatherTools = [
+  {
+    name: 'get_current_weather',
+    description: 'Get current weather conditions for a location',
+    input_schema: {
+      type: 'object',
+      properties: {
+        location: {
+          type: 'string',
+          description: 'The city or location'
+        },
+        unit: {
+          type: 'string',
+          enum: ['celsius', 'fahrenheit'],
+          default: 'celsius'
+        }
+      },
+      required: ['location']
+    }
+  },
+  {
+    name: 'get_weather_forecast',
+    description: 'Get weather forecast for multiple days',
+    input_schema: {
+      type: 'object',
+      properties: {
+        location: {
+          type: 'string',
+          description: 'The city or location'
+        },
+        days: {
+          type: 'number',
+          minimum: 1,
+          maximum: 10,
+          description: 'Number of days to forecast'
+        },
+        unit: {
+          type: 'string',
+          enum: ['celsius', 'fahrenheit'],
+          default: 'celsius'
+        }
+      },
+      required: ['location', 'days']
+    }
+  }
+]
+
+async function handleWeatherTools(toolName: string, input: any) {
+  switch (toolName) {
+    case 'get_current_weather':
+      return await handleWeatherTool(input.location, input.unit)
+    
+    case 'get_weather_forecast':
+      try {
+        const forecastData = await weather.getForecast(input.location, input.days)
+        return {
+          location: `${forecastData.location.name}, ${forecastData.location.country}`,
+          currentWeather: {
+            temperature: input.unit === 'fahrenheit' ? forecastData.current.temp_f : forecastData.current.temp_c,
+            condition: forecastData.current.condition.text,
+            unit: input.unit === 'fahrenheit' ? '°F' : '°C'
+          },
+          forecast: forecastData.forecast.forecastday.map(day => ({
+            date: day.date,
+            maxTemp: input.unit === 'fahrenheit' ? day.day.maxtemp_f : day.day.maxtemp_c,
+            minTemp: input.unit === 'fahrenheit' ? day.day.mintemp_f : day.day.mintemp_c,
+            condition: day.day.condition.text,
+            chanceOfRain: day.day.daily_chance_of_rain,
+            sunrise: day.astro.sunrise,
+            sunset: day.astro.sunset
+          }))
+        }
+      } catch (error) {
+        return { error: 'Unable to fetch forecast data' }
+      }
+    
+    default:
+      return { error: 'Unknown weather tool' }
+  }
+}
+```
+
+### Conversational Weather Assistant
+
+```ts
+class WeatherAssistant {
+  private anthropic: Anthropic
+  private weather: WeatherClient
+  private conversationHistory: Anthropic.Messages.MessageParam[] = []
+
+  constructor() {
+    this.anthropic = new Anthropic()
+    this.weather = new WeatherClient()
+  }
+
+  async chat(userMessage: string): Promise<string> {
+    // Add user message to history
+    this.conversationHistory.push({
+      role: 'user',
+      content: userMessage
+    })
+
+    const message = await this.anthropic.messages.create({
+      model: 'claude-3-sonnet-20240229',
+      max_tokens: 1500,
+      system: "You are a helpful weather assistant. Provide accurate, detailed weather information and helpful advice based on weather conditions. Be friendly and conversational.",
+      messages: this.conversationHistory,
+      tools: weatherTools
+    })
+
+    // Handle tool usage
+    if (message.content.some(content => content.type === 'tool_use')) {
+      const toolResults = await this.processToolUses(message.content)
+      
+      // Add assistant response to history
+      this.conversationHistory.push({
+        role: 'assistant',
+        content: message.content
+      })
+
+      // Add tool results to history
+      this.conversationHistory.push({
+        role: 'user',
+        content: toolResults
+      })
+
+      // Get final response
+      const finalResponse = await this.anthropic.messages.create({
+        model: 'claude-3-sonnet-20240229',
+        max_tokens: 1500,
+        messages: this.conversationHistory,
+        tools: weatherTools
+      })
+
+      // Add final response to history
+      this.conversationHistory.push({
+        role: 'assistant',
+        content: finalResponse.content
+      })
+
+      return finalResponse.content.find(content => content.type === 'text')?.text || 'No response generated'
+    }
+
+    // Add assistant response to history
+    this.conversationHistory.push({
+      role: 'assistant',
+      content: message.content
+    })
+
+    return message.content.find(content => content.type === 'text')?.text || 'No response generated'
+  }
+
+  private async processToolUses(content: any[]): Promise<any[]> {
+    const toolUseBlocks = content.filter(block => block.type === 'tool_use')
+    const toolResults = []
+
+    for (const toolUse of toolUseBlocks) {
+      const result = await handleWeatherTools(toolUse.name, toolUse.input)
+      
+      toolResults.push({
+        type: 'tool_result',
+        tool_use_id: toolUse.id,
+        content: JSON.stringify(result)
+      })
+    }
+
+    return toolResults
+  }
+
+  clearHistory() {
+    this.conversationHistory = []
+  

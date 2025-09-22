@@ -1,0 +1,399 @@
+---
+title: OpenAI SDK
+description: Use @deepagent/weather with OpenAI SDK for weather-aware AI applications
+---
+
+# Weather Tool - OpenAI SDK Integration
+
+Learn how to integrate the [`@deepagent/weather`](https://deepagent.amardeep.space/docs/weather) tool with the OpenAI SDK for building weather-aware AI applications.
+
+## Prerequisites
+
+- OpenAI SDK installed
+- [`@deepagent/weather`](https://deepagent.amardeep.space/docs/weather) package
+- OpenAI API key
+- Weather API key from [weatherapi.com](https://www.weatherapi.com)
+
+## Installation
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/weather openai
+\`\`\`
+\`\`\`bash yarn
+yarn add @deepagent/weather openai
+\`\`\`
+\`\`\`bash pnpm
+pnpm add @deepagent/weather openai
+\`\`\`
+`}
+</PackageTabs>
+
+## Environment Setup
+
+```bash
+WEATHER_API_KEY=your_weather_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+## Basic Integration
+
+### Function Definition
+
+```ts
+import { WeatherClient } from '@deepagent/weather'
+import OpenAI from 'openai'
+
+const weather = new WeatherClient()
+const openai = new OpenAI()
+
+const weatherFunction = {
+  name: 'get_current_weather',
+  description: 'Get the current weather in a given location',
+  parameters: {
+    type: 'object',
+    properties: {
+      location: {
+        type: 'string',
+        description: 'The city and state, e.g. San Francisco, CA',
+      },
+      unit: {
+        type: 'string',
+        enum: ['celsius', 'fahrenheit'],
+        description: 'The temperature unit to use',
+      },
+    },
+    required: ['location'],
+  },
+}
+
+async function handleWeatherFunction(location: string, unit: string = 'celsius') {
+  try {
+    const weatherData = await weather.getCurrentWeather(location)
+    return {
+      location: weatherData.location.name,
+      country: weatherData.location.country,
+      temperature: unit === 'fahrenheit' ? weatherData.current.temp_f : weatherData.current.temp_c,
+      unit,
+      condition: weatherData.current.condition.text,
+      humidity: weatherData.current.humidity,
+      windSpeed: weatherData.current.wind_kph,
+      feelsLike: unit === 'fahrenheit' ? weatherData.current.feelslike_f : weatherData.current.feelslike_c,
+    }
+  } catch (error) {
+    return { error: 'Unable to fetch weather data for the specified location' }
+  }
+}
+```
+
+### Chat Completion with Function Calling
+
+```ts
+async function chatWithWeather(userMessage: string) {
+  const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+    { role: 'system', content: 'You are a helpful assistant that can provide weather information.' },
+    { role: 'user', content: userMessage }
+  ]
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4-turbo-preview',
+    messages,
+    functions: [weatherFunction],
+    function_call: 'auto',
+  })
+
+  const responseMessage = response.choices[0].message
+
+  if (responseMessage.function_call) {
+    const functionName = responseMessage.function_call.name
+    const functionArgs = JSON.parse(responseMessage.function_call.arguments)
+
+    if (functionName === 'get_current_weather') {
+      const weatherResult = await handleWeatherFunction(
+        functionArgs.location,
+        functionArgs.unit
+      )
+
+      messages.push(responseMessage)
+      messages.push({
+        role: 'function',
+        name: functionName,
+        content: JSON.stringify(weatherResult),
+      })
+
+      const secondResponse = await openai.chat.completions.create({
+        model: 'gpt-4-turbo-preview',
+        messages,
+      })
+
+      return secondResponse.choices[0].message.content
+    }
+  }
+
+  return responseMessage.content
+}
+
+// Usage
+const result = await chatWithWeather("What's the weather like in Tokyo?")
+console.log(result)
+```
+
+### Advanced Multi-Function Setup
+
+```ts
+const weatherFunctions = [
+  {
+    name: 'get_current_weather',
+    description: 'Get the current weather in a given location',
+    parameters: {
+      type: 'object',
+      properties: {
+        location: { type: 'string', description: 'The city and state' },
+        unit: { type: 'string', enum: ['celsius', 'fahrenheit'] },
+      },
+      required: ['location'],
+    },
+  },
+  {
+    name: 'get_weather_forecast',
+    description: 'Get weather forecast for a location',
+    parameters: {
+      type: 'object',
+      properties: {
+        location: { type: 'string', description: 'The city and state' },
+        days: { type: 'number', minimum: 1, maximum: 10, description: 'Number of days' },
+        unit: { type: 'string', enum: ['celsius', 'fahrenheit'] },
+      },
+      required: ['location', 'days'],
+    },
+  },
+]
+
+async function handleFunctionCall(functionName: string, args: any) {
+  switch (functionName) {
+    case 'get_current_weather':
+      return await handleWeatherFunction(args.location, args.unit)
+    
+    case 'get_weather_forecast':
+      try {
+        const forecastData = await weather.getForecast(args.location, args.days)
+        return {
+          location: forecastData.location.name,
+          forecast: forecastData.forecast.forecastday.map(day => ({
+            date: day.date,
+            maxTemp: args.unit === 'fahrenheit' ? day.day.maxtemp_f : day.day.maxtemp_c,
+            minTemp: args.unit === 'fahrenheit' ? day.day.mintemp_f : day.day.mintemp_c,
+            condition: day.day.condition.text,
+            chanceOfRain: day.day.daily_chance_of_rain,
+          }))
+        }
+      } catch (error) {
+        return { error: 'Unable to fetch forecast data' }
+      }
+    
+    default:
+      return { error: 'Unknown function' }
+  }
+}
+```
+
+### Streaming with Function Calls
+
+```ts
+async function streamWeatherChat(userMessage: string) {
+  const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+    { role: 'system', content: 'You are a helpful weather assistant.' },
+    { role: 'user', content: userMessage }
+  ]
+
+  const stream = await openai.chat.completions.create({
+    model: 'gpt-4-turbo-preview',
+    messages,
+    functions: weatherFunctions,
+    function_call: 'auto',
+    stream: true,
+  })
+
+  let functionCallBuffer = ''
+  let currentFunction: any = null
+
+  for await (const chunk of stream) {
+    const delta = chunk.choices[0]?.delta
+
+    if (delta?.function_call) {
+      if (delta.function_call.name) {
+        currentFunction = { name: delta.function_call.name, arguments: '' }
+      }
+      if (delta.function_call.arguments) {
+        functionCallBuffer += delta.function_call.arguments
+      }
+    } else if (delta?.content) {
+      process.stdout.write(delta.content)
+    }
+  }
+
+  // Handle function call if present
+  if (currentFunction && functionCallBuffer) {
+    currentFunction.arguments = functionCallBuffer
+    const args = JSON.parse(currentFunction.arguments)
+    const result = await handleFunctionCall(currentFunction.name, args)
+    
+    // Continue conversation with function result
+    messages.push({
+      role: 'assistant',
+      function_call: currentFunction,
+    })
+    messages.push({
+      role: 'function',
+      name: currentFunction.name,
+      content: JSON.stringify(result),
+    })
+
+    const followupStream = await openai.chat.completions.create({
+      model: 'gpt-4-turbo-preview',
+      messages,
+      stream: true,
+    })
+
+    for await (const chunk of followupStream) {
+      const content = chunk.choices[0]?.delta?.content
+      if (content) {
+        process.stdout.write(content)
+      }
+    }
+  }
+}
+```
+
+### Assistant API Integration
+
+```ts
+async function createWeatherAssistant() {
+  const assistant = await openai.beta.assistants.create({
+    name: "Weather Assistant",
+    instructions: "You are a helpful weather assistant that provides current weather information and forecasts.",
+    model: "gpt-4-turbo-preview",
+    tools: [
+      {
+        type: "function",
+        function: weatherFunctions[0]
+      },
+      {
+        type: "function", 
+        function: weatherFunctions[1]
+      }
+    ]
+  })
+
+  return assistant
+}
+
+async function runWeatherAssistant(assistantId: string, userMessage: string) {
+  // Create a thread
+  const thread = await openai.beta.threads.create()
+
+  // Add user message
+  await openai.beta.threads.messages.create(thread.id, {
+    role: "user",
+    content: userMessage
+  })
+
+  // Run the assistant
+  const run = await openai.beta.threads.runs.create(thread.id, {
+    assistant_id: assistantId
+  })
+
+  // Poll for completion and handle function calls
+  let runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id)
+
+  while (runStatus.status === 'running' || runStatus.status === 'requires_action') {
+    if (runStatus.status === 'requires_action' && runStatus.required_action?.type === 'submit_tool_outputs') {
+      const toolOutputs = []
+
+      for (const toolCall of runStatus.required_action.submit_tool_outputs.tool_calls) {
+        if (toolCall.type === 'function') {
+          const args = JSON.parse(toolCall.function.arguments)
+          const result = await handleFunctionCall(toolCall.function.name, args)
+          
+          toolOutputs.push({
+            tool_call_id: toolCall.id,
+            output: JSON.stringify(result)
+          })
+        }
+      }
+
+      await openai.beta.threads.runs.submitToolOutputs(thread.id, run.id, {
+        tool_outputs: toolOutputs
+      })
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id)
+  }
+
+  // Get the assistant's response
+  const messages = await openai.beta.threads.messages.list(thread.id)
+  return messages.data[0].content
+}
+```
+
+### Error Handling and Validation
+
+```ts
+import { z } from 'zod'
+
+const WeatherRequestSchema = z.object({
+  location: z.string().min(1, 'Location cannot be empty'),
+  unit: z.enum(['celsius', 'fahrenheit']).optional().default('celsius'),
+})
+
+async function safeHandleWeatherFunction(location: string, unit?: string) {
+  try {
+    // Validate input
+    const validated = WeatherRequestSchema.parse({ location, unit })
+    
+    const weatherData = await weather.getCurrentWeather(validated.location)
+    
+    if (!weatherData) {
+      throw new Error('No weather data received')
+    }
+    
+    return {
+      success: true,
+      data: {
+        location: weatherData.location.name,
+        country: weatherData.location.country,
+        temperature: validated.unit === 'fahrenheit' ? weatherData.current.temp_f : weatherData.current.temp_c,
+        unit: validated.unit,
+        condition: weatherData.current.condition.text,
+        humidity: weatherData.current.humidity,
+        timestamp: new Date().toISOString(),
+      }
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      location: location,
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Always validate function arguments** - Use schemas to ensure data integrity
+2. **Handle API failures gracefully** - Provide meaningful error messages
+3. **Implement retry logic** - Weather APIs can be temporarily unavailable
+4. **Cache responses** - Avoid duplicate API calls for recent queries
+5. **Use appropriate models** - GPT-4 is better at understanding complex weather queries
+6. **Rate limiting** - Respect both OpenAI and Weather API rate limits
+
+## Example Use Cases
+
+- Personal weather assistant
+- Travel planning chatbot
+- Agricultural monitoring system
+- Smart home automation
+- Event planning assistant

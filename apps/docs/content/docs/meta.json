@@ -1,0 +1,9 @@
+{
+  "root": true,
+  "pages": [
+    "---AI SDKS---",
+    "...(ai-sdks)",
+    "---Tools---",
+    "...(tools)"
+  ]
+}

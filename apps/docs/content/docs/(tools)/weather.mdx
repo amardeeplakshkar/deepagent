@@ -1,0 +1,37 @@
+---
+title: Weather
+description: Simple Weather API client for accessing weather data based on location.
+---
+
+- package: `@deepagent/weather`
+- exports: `class WeatherClient`, `namespace weather`
+- env vars: `WEATHER_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/weather/src/weather-client.ts)
+- [weatherapi.com api docs](https://www.weatherapi.com)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/weather
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/weather
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/weather
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { WeatherClient } from '@deepagent/weather'
+
+const weather = new WeatherClient()
+const res = await weather.getCurrentWeather('new york')
+```

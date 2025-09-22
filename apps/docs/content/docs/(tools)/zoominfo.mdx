@@ -1,0 +1,41 @@
+---
+title: ZoomInfo
+description: ZoomInfo provides a powerful API for B2B person and company data enrichment.
+---
+
+- package: `@deepagent/zoominfo`
+- exports: `class ZoomInfo`, `namespace zoominfo`
+- env vars:
+  - `ZOOMINFO_USERNAME` and `ZOOMINFO_PASSWORD` for basic auth
+  - `ZOOMINFO_USERNAME`, `ZOOMINFO_CLIENT_ID`, and `ZOOMINFO_PRIVATE_KEY` for PKI auth
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/zoominfo/src/zoominfo-client.ts)
+- [zoominfo api docs](https://api-docs.zoominfo.com)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/zoominfo
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/zoominfo
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/zoominfo
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { ZoomInfoClient } from '@deepagent/zoominfo'
+
+const zoomInfo = new ZoomInfoClient()
+const res = await zoomInfo.enrichContact({
+  emailAddress: 'travis@transitivebullsh.it'
+})
+```

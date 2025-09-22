@@ -1,0 +1,37 @@
+---
+title: Tavily
+description: Web search API tailored for LLMs.
+---
+
+- package: `@deepagent/tavily`
+- exports: `class TavilyClient`, `namespace tavily`
+- env vars: `TAVILY_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/tavily/src/tavily-client.ts)
+- [tavily api docs](https://tavily.com)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/tavily
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/tavily
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/tavily
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { TavilyClient } from '@deepagent/tavily'
+
+const tavily = new TavilyClient()
+const res = await tavily.search('latest news')
+```

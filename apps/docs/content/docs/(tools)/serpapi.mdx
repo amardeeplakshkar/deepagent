@@ -1,0 +1,37 @@
+---
+title: SerpAPI
+description: Lightweight wrapper around SerpAPI for Google search.
+---
+
+- package: `@deepagent/serpapi`
+- exports: `class SerpAPIClient`, `namespace serpapi`
+- env vars: `SERPAPI_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/serpapi/src/serpapi-client.ts)
+- [serpapi api docs](https://serpapi.com/search-api)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/serpapi
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/serpapi
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/serpapi
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { SerpAPIClient } from '@deepagent/serpapi'
+
+const serpapi = new SerpAPIClient()
+const res = await serpapi.search('latest news')
+```

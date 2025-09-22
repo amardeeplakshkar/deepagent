@@ -1,0 +1,46 @@
+---
+title: Google Docs
+description: Simplified Google Docs API.
+---
+
+- package: `@deepagent/google-docs`
+- exports: `class GoogleDocsClient`, `namespace googleDocs`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/google-docs/src/google-docs-client.ts)
+- [google docs docs](https://developers.google.com/workspace/docs/api)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/google-docs googleapis @google-cloud/local-auth
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/google-docs googleapis @google-cloud/local-auth
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/google-docs googleapis @google-cloud/local-auth
+\`\`\`
+`}
+</PackageTabs>
+
+## Example Usage
+
+```ts
+import { GoogleDriveClient } from '@deepagent/google-drive'
+import { authenticate } from '@google-cloud/local-auth'
+import { google } from 'googleapis'
+
+// (in a real app, store these auth credentials and reuse them)
+const auth = await authenticate({
+  scopes: ['https://www.googleapis.com/auth/documents.readonly'],
+  keyfilePath: process.env.GOOGLE_CREDENTIALS_PATH
+})
+const docs = google.docs({ version: 'v1', auth })
+const client = new GoogleDocsClient({ docs })
+
+const document = await client.getDocument({ documentId: 'TODO' })
+console.log(document)
+```

@@ -1,0 +1,43 @@
+---
+title: Proxycurl
+description: People and company data from LinkedIn & Crunchbase.
+---
+
+- package: `@deepagent/proxycurl`
+- exports: `class ProxycurlClient`, `namespace proxycurl`
+- env vars: `PROXYCURL_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/proxycurl/src/proxycurl-client.ts)
+- [proxycurl api docs](https://nubela.co/proxycurl)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/proxycurl
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/proxycurl
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/proxycurl
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { ProxycurlClient } from '@deepagent/proxycurl'
+
+const proxycurl = new ProxycurlClient()
+const company = await proxycurl.getLinkedInCompany({
+  url: 'https://linkedin.com/company/apple'
+})
+
+const person = await proxycurl.getLinkedInPerson({
+  url: 'https://linkedin.com/in/fisch2'
+})
+```

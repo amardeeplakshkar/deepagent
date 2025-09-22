@@ -1,0 +1,36 @@
+---
+title: Calculator
+description: A simple calculator tool.
+---
+
+- package: `@deepagent/calculator`
+- exports: `function calculator`
+- env vars: _none_
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/calculator/src/calculator.ts)
+- [mathjs docs](https://mathjs.org)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/calculator
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/calculator
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/calculator
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { calculator } from '@deepagent/calculator'
+
+const res = await calculator({ expr: '1 + 1' })
+```

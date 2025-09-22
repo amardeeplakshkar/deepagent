@@ -1,0 +1,37 @@
+---
+title: Clearbit
+description: Resolving and enriching people and company data.
+---
+
+- package: `@deepagent/clearbit`
+- exports: `class ClearbitClient`, `namespace clearbit`
+- env vars: `CLEARBIT_API_KEY`
+- [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/clearbit/src/clearbit-client.ts)
+- [clearbit api docs](https://dashboard.clearbit.com/docs)
+
+## Install
+
+<PackageTabs>
+{`
+\`\`\`bash npm
+npm install @deepagent/clearbit
+\`\`\`
+
+\`\`\`bash yarn
+yarn add @deepagent/clearbit
+\`\`\`
+
+\`\`\`bash pnpm
+pnpm add @deepagent/clearbit
+\`\`\`
+`}
+</PackageTabs>
+
+## Usage
+
+```ts
+import { ClearbitClient } from '@deepagent/clearbit'
+
+const clearbit = new ClearbitClient()
+const res = await clearbit.companyEnrichment({ domain: 'apple.com' })
+```
