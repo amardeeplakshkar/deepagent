@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/wikipedia",
-  "version": "8.2.1",
+  "version": "8.2.2",
   "description": "DeepAgent Agentic SDK for wikipedia.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

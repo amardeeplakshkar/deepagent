@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/firecrawl",
-  "version": "8.2.1",
+  "version": "8.2.2",
   "description": "DeepAgent Agentic SDK for Firecrawl.",
   "authors": [
     "Amardeep Lakshkar <https://amardeep.space>",

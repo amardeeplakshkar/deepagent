@@ -1,6 +1,6 @@
 {
   "name": "@deepagent/microlink",
-  "version": "8.2.1",
+  "version": "8.2.2",
   "description": "Microlink API integration for extracting website metadata and link previews",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

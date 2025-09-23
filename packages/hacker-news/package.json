@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/hacker-news",
-  "version": "8.2.1",
+  "version": "8.2.2",
   "description": "DeepAgent Agentic SDK for Hacker News.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",

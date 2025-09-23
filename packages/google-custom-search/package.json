@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/google-custom-search",
-  "version": "8.2.1",
+  "version": "8.2.2",
   "description": "Agentic client for the Google Custom Search API.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",
