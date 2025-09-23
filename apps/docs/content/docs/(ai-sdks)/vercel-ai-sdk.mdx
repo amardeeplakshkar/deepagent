@@ -18,13 +18,13 @@ Learn how to integrate the [`@deepagent/weather`](https://deepagent.amardeep.spa
 <PackageTabs>
 {`
 \`\`\`bash npm
-npm install @deepagent/weather ai
+npm install @deepagent/weather ai @ai-sdk/openai
 \`\`\`
 \`\`\`bash yarn
-yarn add @deepagent/weather ai
+yarn add @deepagent/weather ai @ai-sdk/openai
 \`\`\`
 \`\`\`bash pnpm
-pnpm add @deepagent/weather ai
+pnpm add @deepagent/weather ai @ai-sdk/openai
 \`\`\`
 `}
 </PackageTabs>
@@ -45,30 +45,39 @@ import { WeatherClient } from '@deepagent/weather'
 import { tool } from 'ai'
 import { z } from 'zod'
 
-const weather = new WeatherClient()
-
 export const weatherTool = tool({
-  description: 'Get current weather information for any location',
-  parameters: z.object({
-    location: z.string().describe('The city or location to get weather for'),
+  description: 'Get the weather in a location',
+  inputSchema: z.object({
+    location: z.string().describe('The location to get the weather for'),
   }),
-  execute: async ({ location }) => {
+  execute: async function ({ location }) {
     try {
-      const weatherData = await weather.getCurrentWeather(location)
-      return {
-        location: weatherData.location.name,
-        country: weatherData.location.country,
-        temperature: weatherData.current.temp_c,
-        condition: weatherData.current.condition.text,
-        humidity: weatherData.current.humidity,
-        windSpeed: weatherData.current.wind_kph,
-        feelsLike: weatherData.current.feelslike_c,
+      const cleanedLocation = location.trim().toLowerCase()
+      const weather = new WeatherClient()
+      const res = await weather.getCurrentWeather(cleanedLocation)
+
+      if (!res || !res.current || !res.location) {
+        return { error: 'Sorry, we don’t have weather data for that location.' }
       }
-    } catch (error) {
-      return { error: 'Failed to fetch weather data' }
+
+      return res;
+
+    } catch (err: any) {
+      const status = err?.response?.status || err?.status
+
+      if (status === 400) {
+        return {
+          error: `Sorry, we don’t have weather data for "${location}".`,
+        }
+      }
+
+      return {
+        error: `Something went wrong while fetching weather for "${location}". Please try again later.`,
+      }
     }
-  },
-})
+  }
+});
+
 ```
 
 ### Chat Completion with Tools
@@ -86,7 +95,38 @@ const result = await generateText({
     }
   ],
   tools: {
-    getWeather: weatherTool,
+    getWeather: tool({
+  description: 'Get the weather in a location',
+  inputSchema: z.object({
+    location: z.string().describe('The location to get the weather for'),
+  }),
+  execute: async function ({ location }) {
+    try {
+      const cleanedLocation = location.trim().toLowerCase()
+      const weather = new WeatherClient()
+      const res = await weather.getCurrentWeather(cleanedLocation)
+
+      if (!res || !res.current || !res.location) {
+        return { error: 'Sorry, we don’t have weather data for that location.' }
+      }
+
+      return res;
+
+    } catch (err: any) {
+      const status = err?.response?.status || err?.status
+
+      if (status === 400) {
+        return {
+          error: `Sorry, we don’t have weather data for "${location}".`,
+        }
+      }
+
+      return {
+        error: `Something went wrong while fetching weather for "${location}". Please try again later.`,
+      }
+    }
+  }
+}),
   },
 })
 
@@ -96,152 +136,145 @@ console.log(result.text)
 ### Streaming with Tools
 
 ```ts
-import { streamText } from 'ai'
-import { openai } from '@ai-sdk/openai'
+import { weatherTool } from '@/lib/weather';
+import { openai } from '@ai-sdk/openai';
+import { convertToModelMessages, streamText, UIMessage } from 'ai';
 
-const result = await streamText({
-  model: openai('gpt-4-turbo'),
-  messages: [
-    {
-      role: 'user',
-      content: 'Compare the weather in New York and London'
-    }
-  ],
-  tools: {
-    getWeather: weatherTool,
-  },
-})
+export const maxDuration = 30;
 
-for await (const delta of result.textStream) {
-  process.stdout.write(delta)
+export async function POST(req: Request) {
+  const { messages }: { messages: UIMessage[] } = await req.json();
+
+  const result = streamText({
+    model: openai('gpt-5'),
+    system: 'You are a helpful assistant.',
+    messages: convertToModelMessages(messages),
+    toolChoice: 'auto',
+    tools: {
+      getWeather: weatherTool,
+    },
+  });
+
+  return result.toUIMessageStreamResponse();
 }
-```
-
-### Advanced Weather Tool with Forecast
-
-```ts
-export const weatherForecastTool = tool({
-  description: 'Get weather forecast for a location',
-  parameters: z.object({
-    location: z.string().describe('The city or location'),
-    days: z.number().min(1).max(10).describe('Number of days to forecast'),
-  }),
-  execute: async ({ location, days }) => {
-    try {
-      const forecastData = await weather.getForecast(location, days)
-      return {
-        location: forecastData.location.name,
-        current: forecastData.current,
-        forecast: forecastData.forecast.forecastday.map(day => ({
-          date: day.date,
-          maxTemp: day.day.maxtemp_c,
-          minTemp: day.day.mintemp_c,
-          condition: day.day.condition.text,
-          chanceOfRain: day.day.daily_chance_of_rain,
-        }))
-      }
-    } catch (error) {
-      return { error: 'Failed to fetch forecast data' }
-    }
-  },
-})
 ```
 
 ### Next.js API Route Example
 
-```ts
-// app/api/chat/route.ts
-import { streamText } from 'ai'
-import { openai } from '@ai-sdk/openai'
-import { weatherTool } from '@/lib/weather-tool'
+```ts title="app/api/chat/route.ts"
+import { weatherTool } from '@/lib/weather';
+import { openai } from '@ai-sdk/openai';
+import { convertToModelMessages, streamText, UIMessage } from 'ai';
+
+export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json()
+  const { messages }: { messages: UIMessage[] } = await req.json();
 
-  const result = await streamText({
-    model: openai('gpt-4-turbo'),
-    messages,
+  const result = streamText({
+    model: openai('gpt-5'),
+    system: 'You are a helpful assistant.',
+    messages: convertToModelMessages(messages),
+    toolChoice: 'auto',
     tools: {
       getWeather: weatherTool,
     },
-  })
+  });
 
-  return result.toAIStreamResponse()
+  return result.toUIMessageStreamResponse();
 }
 ```
 
 ### React Hook Usage
 
 ```tsx
-'use client'
+'use client';
 
-import { useChat } from 'ai/react'
+import { useChat } from '@ai-sdk/react';
+import {
+  DefaultChatTransport,
+  lastAssistantMessageIsCompleteWithToolCalls,
+} from 'ai';
+import { useState } from 'react';
 
-export default function WeatherChat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    api: '/api/chat',
-  })
+export default function Chat() {
+  const { messages, sendMessage } = useChat({
+    transport: new DefaultChatTransport({
+      api: '/api/chat',
+    }),
+
+    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
+
+    async onToolCall({ toolCall }) {
+      // Check if it's a dynamic tool first for proper type narrowing
+      if (toolCall.dynamic) {
+        return;
+      }
+    },
+  });
+  const [input, setInput] = useState('');
 
   return (
-    <div>
-      <div>
-        {messages.map((message) => (
-          <div key={message.id}>
-            <strong>{message.role}:</strong>
-            <p>{message.content}</p>
-            {message.toolInvocations?.map((toolInvocation) => (
-              <div key={toolInvocation.toolCallId}>
-                <strong>Tool:</strong> {toolInvocation.toolName}
-                <pre>{JSON.stringify(toolInvocation.result, null, 2)}</pre>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      
-      <form onSubmit={handleSubmit}>
-        <input
-          value={input}
-          onChange={handleInputChange}
-          placeholder="Ask about the weather..."
-        />
-        <button type="submit">Send</button>
+    <>
+      {messages?.map(message => (
+        <div key={message.id}>
+          <strong>{`${message.role}: `}</strong>
+          {message.parts.map(part => {
+            switch (part.type) {
+              // render text parts as simple text:
+              case 'text':
+                return part.text;
+
+              case 'tool-getWeather': {
+                const callId = part.toolCallId;
+
+                switch (part.state) {
+                  case 'input-streaming':
+                    return (
+                      <pre key={callId}>{JSON.stringify(part, null, 2)}</pre>
+                    );
+                  case 'input-available':
+                    return (
+                      <div key={callId}>
+                        Getting weather information for {(part.input as any).location}...
+                      </div>
+                    );
+                  case 'output-available':
+                    return (
+                      <div key={callId}>
+                        Weather in {(part.input as any).location} city : {JSON.stringify(part.output, null, 2)}
+                      </div>
+                    );
+                  case 'output-error':
+                    return (
+                      <div key={callId}>
+                        Error getting weather for {(part.input as any).location}:{' '}
+                        {part.errorText}
+                      </div>
+                    );
+                }
+                break;
+              }
+            }
+          })}
+          <br />
+        </div>
+      ))}
+
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          if (input.trim()) {
+            sendMessage({ text: input });
+            setInput('');
+          }
+        }}
+      >
+        <input value={input} onChange={e => setInput(e.target.value)} />
       </form>
-    </div>
-  )
+    </>
+  );
 }
-```
-
-### Error Handling
-
-```ts
-export const robustWeatherTool = tool({
-  description: 'Get current weather with error handling',
-  parameters: z.object({
-    location: z.string().describe('The city or location'),
-  }),
-  execute: async ({ location }) => {
-    try {
-      const weatherData = await weather.getCurrentWeather(location)
-      return {
-        success: true,
-        data: {
-          location: weatherData.location.name,
-          temperature: weatherData.current.temp_c,
-          condition: weatherData.current.condition.text,
-          humidity: weatherData.current.humidity,
-          timestamp: new Date().toISOString(),
-        }
-      }
-    } catch (error) {
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
-        fallback: 'Weather data temporarily unavailable'
-      }
-    }
-  },
-})
 ```
 
 ## Best Practices

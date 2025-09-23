@@ -122,6 +122,62 @@ export const metadata: Metadata = {
 };
 
 const CodeExamples = [
+   {
+    "provider": "Vercel AI SDK",
+    "icon": <Anthropic />,
+    "code": `
+import { generateText } from 'ai'
+import { openai } from '@ai-sdk/openai'
+import { WeatherClient } from '@deepagent/weather'
+import { tool } from 'ai'
+import { z } from 'zod'
+
+const result = await generateText({
+  model: openai('gpt-4-turbo'),
+  messages: [
+    {
+      role: 'user',
+      content: 'What\\'s the weather like in Tokyo today?'
+    }
+  ],
+  tools: {
+    getWeather: tool({
+      description: 'Get the weather in a location',
+      inputSchema: z.object({
+        location: z.string().describe('The location to get the weather for'),
+      }),
+      execute: async function ({ location }) {
+        try {
+          const cleanedLocation = location.trim().toLowerCase()
+          const weather = new WeatherClient()
+          const res = await weather.getCurrentWeather(cleanedLocation)
+
+          if (!res || !res.current || !res.location) {
+            return { error: 'Sorry, we don’t have weather data for that location.' }
+          }
+
+          return res
+        } catch (err: any) {
+          const status = err?.response?.status || err?.status
+
+          if (status === 400) {
+            return {
+              error: \`Sorry, we don’t have weather data for "\${location}".\`,
+            }
+          }
+
+          return {
+            error: \`Something went wrong while fetching weather for "\${location}". Please try again later.\`,
+          }
+        }
+      }
+    }),
+  },
+})
+
+console.log(result.text)
+`,
+  },
   {
     provider: "OpenAI",
     icon: <OpenAI />,
@@ -216,36 +272,6 @@ const result = await model.generateContent({
 });
 const res = await tavily.search("latest developments in quantum computing");
 console.log(res);
-`
-  },
-  {
-    "provider": "Vercel AI SDK",
-    "icon": <Anthropic />,
-    "code": `
-import { z } from 'zod';
-import { generateText, tool } from 'ai';
-import { TavilyClient } from '@deepagent/tavily';
-
-const tavily = new TavilyClient();
-
-const result = await generateText({
-  model: 'openai/gpt-4o',
-  tools: {
-    tavily: tool({
-      description: 'Search the web using Tavily',
-      inputSchema: z.object({
-        query: z.string().describe('The query string to search for'),
-      }),
-      execute: async ({ query }) => {
-        const res = await tavily.search(query);
-        return res;
-      },
-    }),
-  },
-  prompt: 'Find the latest developments in quantum computing.',
-});
-
-console.log(result.toolResults[0]);
 `
   }
 ]
