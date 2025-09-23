@@ -43,3 +43,5 @@ export * from '@deepagent/wikipedia'
 export * from '@deepagent/wolfram-alpha'
 export * from '@deepagent/youtube'
 export * from '@deepagent/zoominfo'
+export * from '@deepagent/microlink'
+

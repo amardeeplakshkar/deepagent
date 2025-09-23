@@ -200,6 +200,12 @@ importers:
 
   apps/docs:
     dependencies:
+      '@agentic/core':
+        specifier: 'catalog:'
+        version: 8.4.4(zod@4.1.11)
+      '@deepagent/stdlib':
+        specifier: workspace:*
+        version: link:../../packages/stdlib
       '@radix-ui/react-separator':
         specifier: ^1.1.7
         version: 1.1.7(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -239,6 +245,9 @@ importers:
       gsap:
         specifier: ^3.13.0
         version: 3.13.0
+      ky:
+        specifier: 'catalog:'
+        version: 1.10.0
       lucide-react:
         specifier: ^0.544.0
         version: 0.544.0(react@19.1.1)
@@ -595,6 +604,22 @@ importers:
         specifier: 'catalog:'
         version: 3.25.76
 
+  packages/microlink:
+    dependencies:
+      '@agentic/core':
+        specifier: 'catalog:'
+        version: 8.4.4(zod@3.25.76)
+      ky:
+        specifier: 'catalog:'
+        version: 1.10.0
+      zod:
+        specifier: 'catalog:'
+        version: 3.25.76
+    devDependencies:
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.3.3)(jiti@2.6.0)(lightningcss@1.30.1)(tsx@4.20.5)(yaml@2.8.1)
+
   packages/midjourney:
     dependencies:
       '@agentic/core':
@@ -886,6 +911,9 @@ importers:
       '@deepagent/leadmagic':
         specifier: workspace:*
         version: link:../leadmagic
+      '@deepagent/microlink':
+        specifier: workspace:*
+        version: link:../microlink
       '@deepagent/midjourney':
         specifier: workspace:*
         version: link:../midjourney
@@ -5674,6 +5702,20 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
+  '@agentic/core@8.4.4(zod@4.1.11)':
+    dependencies:
+      dedent: 1.7.0
+      delay: 6.0.0
+      jsonrepair: 3.13.1
+      ky: 1.10.0
+      openai-zod-to-json-schema: 1.1.2(zod@4.1.11)
+      p-throttle: 6.2.0
+      type-fest: 4.41.0
+      zod: 4.1.11
+      zod-validation-error: 4.0.0-beta.1(zod@4.1.11)
+    transitivePeerDependencies:
+      - babel-plugin-macros
+
   '@alloc/quick-lru@5.2.0': {}
 
   '@apidevtools/json-schema-ref-parser@11.7.2':
@@ -9516,6 +9558,10 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
+  openai-zod-to-json-schema@1.1.2(zod@4.1.11):
+    dependencies:
+      zod: 4.1.11
+
   openapi-fetch@0.9.8:
     dependencies:
       openapi-typescript-helpers: 0.0.8
@@ -10774,6 +10820,10 @@ snapshots:
   zod-validation-error@4.0.0-beta.1(zod@3.25.76):
     dependencies:
       zod: 3.25.76
+
+  zod-validation-error@4.0.0-beta.1(zod@4.1.11):
+    dependencies:
+      zod: 4.1.11
 
   zod@3.25.76: {}
 

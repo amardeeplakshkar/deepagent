@@ -1,0 +1,238 @@
+---
+title: DeepAgent SDK
+description: Agentic SDK for Modern Applications - Build intelligent agents with 50+ pre-built integrations
+---
+
+# 🤖 Welcome to DeepAgent
+
+**DeepAgent** is a comprehensive TypeScript SDK for building intelligent agents with **50+ pre-built integrations**. Get started in minutes with zero configuration and full type safety.
+
+## 🚀 Key Features
+
+- **50+ Pre-built Integrations** - Connect to popular APIs and services instantly
+- **100% TypeScript** - Full type safety with comprehensive type definitions
+- **Zero Configuration** - Get started in minutes with sensible defaults
+- **Universal Compatibility** - Works in Node.js, browsers, and edge environments
+- **Production Ready** - Battle-tested with comprehensive error handling
+- **Modular Architecture** - Install only what you need
+
+## 🤖 Popular AI SDKs & Machine Learning
+
+Integrate with leading AI platforms and services:
+
+<Cards>
+  <Card 
+    title="OpenAI SDK" 
+    description="GPT models, embeddings, and completions"
+    href="/docs/openai-sdk" 
+  />
+  <Card 
+  title="Vercel AI SDK" 
+  description="Streaming AI responses in React, Next.js, and more"
+  href="/docs/vercel-ai-sdk" 
+  />
+  <Card 
+  title="Anthropic SDK" 
+  description="Claude models for natural language reasoning and dialogue"
+  href="/docs/anthropic-sdk" 
+  />
+</Cards>
+
+## 🔍 Search & Data Intelligence
+
+Powerful search and data retrieval capabilities:
+
+<Cards>
+  <Card 
+    title="Google Custom Search" 
+    description="Leverage Google's search algorithms"
+    href="/docs/google-custom-search" 
+  />
+  <Card 
+    title="Bing Search" 
+    description="Microsoft Bing search integration"
+    href="/docs/bing" 
+  />
+  <Card 
+    title="Brave Search" 
+    description="Privacy-focused search engine"
+    href="/docs/brave-search" 
+  />
+  <Card 
+    title="Tavily Search" 
+    description="Web search and content retrieval"
+    href="/docs/tavily" 
+  />
+  <Card 
+    title="Exa Search" 
+    description="Semantic search capabilities"
+    href="/docs/exa" 
+  />
+  <Card 
+    title="SearXNG" 
+    description="Open-source metasearch engine"
+    href="/docs/searxng" 
+  />
+</Cards>
+
+## 📊 Business & CRM Tools
+
+Streamline your business operations:
+
+<Cards>
+  <Card 
+    title="Airtable" 
+    description="Database management and automation"
+    href="/docs/airtable" 
+  />
+  <Card 
+    title="Notion" 
+    description="Workspace and knowledge management"
+    href="/docs/notion" 
+  />
+  <Card 
+    title="Apollo" 
+    description="Sales intelligence and CRM"
+    href="/docs/apollo" 
+  />
+  <Card 
+    title="Clearbit" 
+    description="Company and contact data enrichment"
+    href="/docs/clearbit" 
+  />
+  <Card 
+    title="Hunter" 
+    description="Professional email finder"
+    href="/docs/hunter" 
+  />
+  <Card 
+    title="ZoomInfo" 
+    description="B2B contact database"
+    href="/docs/zoominfo" 
+  />
+</Cards>
+
+## 🌐 Developer Tools & Utilities
+
+Essential tools for modern development:
+
+<Cards>
+  <Card 
+    title="GitHub Integration" 
+    description="Repository management and automation"
+    href="/docs/github" 
+  />
+  <Card 
+    title="OpenAPI to TypeScript" 
+    description="Generate TypeScript clients from OpenAPI specs"
+    href="/tools/openapi-to-ts" 
+  />
+  <Card 
+    title="E2B Sandbox" 
+    description="Secure code execution environment"
+    href="/docs/e2b" 
+  />
+  <Card 
+    title="Firecrawl" 
+    description="Web scraping and data extraction"
+    href="/docs/firecrawl" 
+  />
+</Cards>
+
+## 💬 Communication & Social
+
+Connect with your audience across platforms:
+
+<Cards>
+  <Card 
+    title="Slack Integration" 
+    description="Team collaboration and automation"
+    href="/docs/slack" 
+  />
+  <Card 
+    title="Twitter/X" 
+    description="Social media automation and monitoring"
+    href="/docs/twitter" 
+  />
+  <Card 
+    title="Twilio" 
+    description="SMS, voice, and communication APIs"
+    href="/docs/twilio" 
+  />
+  <Card 
+    title="Reddit" 
+    description="Community engagement and monitoring"
+    href="/docs/reddit" 
+  />
+</Cards>
+
+## 📚 Quick Start Guide
+
+Get up and running in minutes:
+
+### Installation
+
+Install any DeepAgent package using your preferred package manager:
+
+```bash path=null start=null
+# npm
+npm install @deepagent/github
+
+# yarn
+yarn add @deepagent/github
+
+# pnpm
+pnpm add @deepagent/github
+```
+
+### Basic Usage
+
+```typescript path=null start=null
+import { GitHubClient } from '@deepagent/github'
+
+// Initialize the client
+const github = new GitHubClient({
+  apiKey: process.env.GITHUB_TOKEN
+})
+
+// Get repository information
+const repo = await github.getRepository({
+  owner: 'amardeeplakshkar',
+  repo: 'deepagent'
+})
+
+// Create an issue
+const issue = await github.createIssue({
+  owner: 'amardeeplakshkar',
+  repo: 'deepagent',
+  title: 'New feature request',
+  body: 'Description of the feature'
+})
+```
+
+## 🎯 Use Cases
+
+### AI-Powered Automation
+- Automate code reviews and PR management
+- Create smart notification systems
+- Generate and publish content across platforms
+- Orchestrate complex workflows
+
+### Data Intelligence & Analytics
+- Social media sentiment analysis
+- Market research and competitor tracking
+- Knowledge base creation
+- Real-time business intelligence
+
+### Customer Relationship Management
+- Automated lead generation and qualification
+- Contact enrichment from multiple sources
+- Personalized outreach campaigns
+- Sales intelligence and pipeline management
+
+---
+
+<div className="text-center mt-12">
+  <p className="text-lg font-semibold mb-2">Ready to build intelligent agents?</p>
+  <p className="text-muted-foreground">Choose your first integration and start building!</p>
+</div>

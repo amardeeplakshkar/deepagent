@@ -1,0 +1,47 @@
+{
+  "name": "@deepagent/microlink",
+  "version": "8.2.1",
+  "description": "Microlink API integration for extracting website metadata and link previews",
+  "author": "Amardeep Lakshkar <https://amardeep.space>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amardeeplakshkar/deepagent.git",
+    "directory": "stdlib/microlink"
+  },
+  "type": "module",
+  "source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsup",
+    "clean": "del dist",
+    "test": "run-s test:*",
+    "test:typecheck": "tsc --noEmit",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "@agentic/core": "catalog:",
+    "ky": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "vitest": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public",
+    "files": [
+      "dist"
+    ],
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js",
+        "default": "./dist/index.js"
+      }
+    }
+  }
+}

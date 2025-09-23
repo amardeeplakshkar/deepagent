@@ -75,7 +75,8 @@
     "@deepagent/wolfram-alpha": "workspace:*",
     "@deepagent/youtube": "workspace:*",
     "@deepagent/zoominfo": "workspace:*",
-    "@deepagent/coindesk": "workspace:*"
+    "@deepagent/coindesk": "workspace:*",
+    "@deepagent/microlink": "workspace:*"
   },
   "peerDependencies": {
     "zod": "catalog:"

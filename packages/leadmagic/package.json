@@ -7,7 +7,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amardeeplakshkar/deepagent.git",
-    "directory": "stdlib/leadmagic"
+    "directory": "stdlib/leadmagic" 
   },
   "type": "module",
   "sideEffects": false,
