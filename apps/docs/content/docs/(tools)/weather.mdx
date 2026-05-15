@@ -4,7 +4,7 @@ description: Simple Weather API client for accessing weather data based on locat
 ---
 
 - package: `@deepagent/weather`
-- exports: `class WeatherClient`, `namespace weather`
+- exports: `class WeatherClient`, `namespace weatherapi`
 - env vars: `WEATHER_API_KEY`
 - [source](https://github.com/amardeeplakshkar/deepagent/blob/main/packages/weather/src/weather-client.ts)
 - [weatherapi.com api docs](https://www.weatherapi.com)
@@ -29,9 +29,70 @@ pnpm add @deepagent/weather
 
 ## Usage
 
+### Current Weather
+
 ```ts
 import { WeatherClient } from '@deepagent/weather'
 
 const weather = new WeatherClient()
 const res = await weather.getCurrentWeather('new york')
 ```
+
+### Forecast
+
+```ts
+import { WeatherClient } from '@deepagent/weather'
+
+const weather = new WeatherClient()
+
+// Simple – 3-day forecast (default)
+const res = await weather.getForecastWeather('new york')
+
+// Full options – up to 14 days, with AQI and alerts
+const res = await weather.getForecastWeather({
+  q: 'new york',
+  days: 7,
+  aqi: 'yes',
+  alerts: 'yes'
+})
+```
+
+## Methods
+
+### `getCurrentWeather(q)`
+
+Returns current weather conditions for a location.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `q` | `string` | Yes | City name, zipcode, IP address, or `lat,lng` coordinates |
+
+Returns `weatherapi.CurrentWeatherResponse`.
+
+---
+
+### `getForecastWeather(options)`
+
+Returns a day-by-day forecast (up to 14 days) including hourly conditions, astronomy data, and daily summaries.
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `q` | `string` | Yes | — | City name, zipcode, IP address, or `lat,lng` coordinates |
+| `days` | `number` | No | `3` | Number of forecast days (1–14) |
+| `aqi` | `"yes" \| "no"` | No | — | Include Air Quality Index data |
+| `alerts` | `"yes" \| "no"` | No | — | Include weather alerts |
+
+Returns `weatherapi.ForecastResponse`, which includes:
+
+- `location` — location metadata
+- `current` — current conditions at time of request
+- `forecast.forecastday[]` — array of `ForecastDay` objects, each containing:
+  - `day` — daily summary (min/max/avg temp, precipitation, UV index, etc.)
+  - `astro` — sunrise, sunset, moonrise, moonset, moon phase
+  - `hour[]` — hourly breakdown for the day
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `WEATHER_API_KEY` | API key from [weatherapi.com](https://www.weatherapi.com) |
