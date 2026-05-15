@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/slack",
-  "version": "8.4.0",
+  "version": "8.4.1",
   "description": "DeepAgent Agentic SDK for Slack.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",
