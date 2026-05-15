@@ -1,12 +1,10 @@
 import {
-  aiFunction,
   AIFunctionsProvider,
   assert,
   getEnv,
   sanitizeSearchParams
 } from '@agentic/core'
 import defaultKy, { type KyInstance } from 'ky'
-import { z } from 'zod'
 
 export namespace weatherapi {
   export const BASE_URL = 'https://api.weatherapi.com/v1'
@@ -76,6 +74,95 @@ export namespace weatherapi {
     localtime_epoch: number
     localtime: string
   }
+
+  export interface ForecastResponse {
+    location: WeatherLocation
+    current: CurrentWeather
+    forecast: Forecast
+  }
+
+  export interface Forecast {
+    forecastday: ForecastDay[]
+  }
+
+  export interface ForecastDay {
+    date: string
+    date_epoch: number
+    day: DayWeather
+    astro: Astro
+    hour: HourWeather[]
+  }
+
+  export interface DayWeather {
+    maxtemp_c: number
+    maxtemp_f: number
+    mintemp_c: number
+    mintemp_f: number
+    avgtemp_c: number
+    avgtemp_f: number
+    maxwind_mph: number
+    maxwind_kph: number
+    totalprecip_mm: number
+    totalprecip_in: number
+    totalsnow_cm: number
+    avgvis_km: number
+    avgvis_miles: number
+    avghumidity: number
+    daily_will_it_rain: number
+    daily_chance_of_rain: number
+    daily_will_it_snow: number
+    daily_chance_of_snow: number
+    condition: WeatherCondition
+    uv: number
+  }
+
+  export interface Astro {
+    sunrise: string
+    sunset: string
+    moonrise: string
+    moonset: string
+    moon_phase: string
+    moon_illumination: number
+    is_moon_up: number
+    is_sun_up: number
+  }
+
+  export interface HourWeather {
+    time_epoch: number
+    time: string
+    temp_c: number
+    temp_f: number
+    condition: WeatherCondition
+    wind_mph: number
+    wind_kph: number
+    wind_degree: number
+    wind_dir: string
+    pressure_mb: number
+    pressure_in: number
+    precip_mm: number
+    precip_in: number
+    snow_cm: number
+    humidity: number
+    cloud: number
+    feelslike_c: number
+    feelslike_f: number
+    windchill_c: number
+    windchill_f: number
+    heatindex_c: number
+    heatindex_f: number
+    dewpoint_c: number
+    dewpoint_f: number
+    will_it_rain: number
+    chance_of_rain: number
+    will_it_snow: number
+    chance_of_snow: number
+    vis_km: number
+    vis_miles: number
+    gust_mph: number
+    gust_kph: number
+    is_day: number
+    uv: number
+  }
 }
 
 /**
@@ -112,17 +199,6 @@ export class WeatherClient extends AIFunctionsProvider {
   /**
    * Gets info about the current weather at a given location.
    */
-  @aiFunction({
-    name: 'get_current_weather',
-    description: 'Gets info about the current weather at a given location.',
-    inputSchema: z.object({
-      q: z
-        .string()
-        .describe(
-          'Location to get the weather for. Can be a city name, zipcode, IP address, or lat/lng coordinates. Example: "London"'
-        )
-    })
-  })
   async getCurrentWeather(queryOrOptions: string | { q: string }) {
     const options =
       typeof queryOrOptions === 'string'
@@ -137,5 +213,27 @@ export class WeatherClient extends AIFunctionsProvider {
         })
       })
       .json<weatherapi.CurrentWeatherResponse>()
+  }
+  /**
+   * Gets the weather forecast for a given location.
+   */
+  async getForecastWeather(
+    queryOrOptions:
+      | string
+      | { q: string; days?: number; aqi?: 'yes' | 'no'; alerts?: 'yes' | 'no' }
+  ) {
+    const options =
+      typeof queryOrOptions === 'string'
+        ? { q: queryOrOptions }
+        : queryOrOptions
+
+    return this.ky
+      .get('forecast.json', {
+        searchParams: sanitizeSearchParams({
+          key: this.apiKey,
+          ...options
+        })
+      })
+      .json<weatherapi.ForecastResponse>()
   }
 }

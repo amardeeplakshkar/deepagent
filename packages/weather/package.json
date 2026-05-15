@@ -1,5 +1,5 @@
 {
-    "name": "@deepagent/weather",
+  "name": "@deepagent/weather",
   "version": "8.4.0",
   "description": "DeepAgent Agentic SDK for weatherapi.com.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
