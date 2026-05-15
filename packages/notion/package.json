@@ -1,6 +1,6 @@
 {
     "name": "@deepagent/notion",
-  "version": "8.2.2",
+  "version": "8.3.0",
   "description": "DeepAgent Agentic SDK for Notion.",
   "author": "Amardeep Lakshkar <https://amardeep.space>",
   "license": "MIT",
